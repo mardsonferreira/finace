@@ -51,7 +51,9 @@
                     <br>
                     <label>Banco</label>
                     <select name="banco" class="form-select">
-                        <option value="NU">Nubank</option>
+                        {% for banco in bancos %}
+                            <option value={{banco.code}}>{{banco.name}}</option>
+                        {% endfor %}
                     </select>
                     <br>
                     <label>Tipo</label>

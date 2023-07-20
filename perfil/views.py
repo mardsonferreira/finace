@@ -21,13 +21,16 @@ def gerenciar(request):
 
     total = calcula_total(contas, 'valor')
 
+    bancos = [ {'code': code, 'name': name} for code, name in Conta.banco_choices ]
+
     return render(
         request,
         'gerenciar.html', 
         {
             'contas': contas,
             'total_contas': total,
-            'categorias': categorias
+            'categorias': categorias,
+            'bancos': bancos
         }
     )
 
