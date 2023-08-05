@@ -1,4 +1,4 @@
-function update_valor_planejamento_categoria(id){
+function update_valor_planejamento_categoria(id) {
     valor = document.getElementById('valor-categoria-'+id).value
 
     fetch("/planejamento/update_valor_categoria/"+id, {
