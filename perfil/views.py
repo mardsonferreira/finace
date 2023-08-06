@@ -1,4 +1,4 @@
-from django.db.models import Sum
+from django.db.models import Sum, DecimalField
 
 from django.shortcuts import render, redirect
 
@@ -6,6 +6,7 @@ from django.contrib import messages
 from django.contrib.messages import constants
 
 from .models import Conta, Categoria
+from extrato.models import Valores
 
 from .utils import calcula_total
 
@@ -87,3 +88,16 @@ def update_categoria(request, id):
     categoria.save()
 
     return redirect('/perfil/gerenciar/')
+
+def dashboard(request):
+    dados = {}
+
+    valores_queryset = valores_queryset = Categoria.objects \
+        .all() \
+        .annotate(total=Sum("valores__valor", distinct=True, output_field=DecimalField())) \
+        .values("categoria", "total") \
+
+    for valores in valores_queryset:
+        dados[valores["categoria"]] = float(valores["total"]) if  valores["total"] is not None else 0
+
+    return render(request, 'dashboard.html', {'labels': list(dados.keys()), 'values': list(dados.values())})
